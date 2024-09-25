@@ -62,13 +62,36 @@
     // $name = $_POST["name"];
     // print_r($_POST);
 
+    // include 'connect.php';
+
+    // $stml = $con->prepare("SELECT * FROM items");
+    // $stml->execute();
+    // $item = $stml -> fetchAll(PDO :: FETCH_ASSOC);
+
+
+    // $stml1 = $con->prepare("SELECT * FROM items where itemName = 'iPhone'");
+    // $stml1->execute();
+    // $item1 = $stml1 -> fetch(PDO :: FETCH_ASSOC);
+
+    // $count = $stml->rowCount();
+
+    // echo "<pre>";   
+    // print_r($count);
+    // echo "</pre>";
+
     include 'connect.php';
 
-    $stml = $con->prepare("SELECT * FROM items where itemName = 'laptop'");
+    $stml = $con->prepare("SELECT itemName FROM items Where itemName = 'laptop'");
     $stml->execute();
-    $item = $stml -> fetch(PDO :: FETCH_ASSOC);
+    $itemName =$stml->fetch(PDO::FETCH_ASSOC);
 
-    echo "<pre>";   
-    print_r($item);
+    $stml1 = $con->prepare("SELECT price FROM items Where itemName = 'laptop'");
+    $stml1->execute();
+    $itemPrice =$stml1->fetch(PDO::FETCH_ASSOC);
+
+    echo "<pre>";
+    echo json_encode(array("name" => $itemName, "price" => $itemPrice));
+    echo "<br/>";
+    print_r($itemName);
     echo "</pre>";
 ?>
