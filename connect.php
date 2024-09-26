@@ -1,5 +1,9 @@
 <?php 
-    $dsn = "mysql:host=localhost;dbname=test" ; 
+
+    include "../functions.php";
+
+
+    $dsn = "mysql:host=localhost;dbname=noteapp" ; 
     $user = "root" ;
     $pass = "" ; 
     $option = array(
