@@ -2,7 +2,6 @@
 
 include "../connect.php";
 
-//we use filterRequest Function for SECURITY "i made it in function.php file using htmlspecialchars, and we also use $_POST methode becuase it is more secure"
 
 $username = filterRequest("user_name");
 $email = filterRequest("user_email");

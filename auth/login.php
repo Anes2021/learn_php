@@ -1,6 +1,6 @@
 <?php
 
-header('Content-Type: application/json'); // Set JSON response type
+header('Content-Type: application/json'); 
 
 include "../connect.php";
 
@@ -13,19 +13,30 @@ try {
     $count = $stmt->rowCount();
 
     if ($count > 0) {
-        // Return a JSON response indicating success
+
+        //generate random token bytes
+        $token = bin2hex(random_bytes(32));
+        //set expiration time after 2 days
+        $expiry_date = date('Y-m-d H:i:s', strtotime('+2 days'));
+
+        //store token informatoin in sessions table
+        $tokenStmt = $con->prepare("INSERT INTO `sessions`(`token`, `user_email`, `expiry_date`) VALUES (?, ?, ?)");
+        $tokenStmt->execute(array($token, $email, $expiry_date));
+
+        //send token to flutter in the response header
+        header('Authorization: Bearer ' . $token);
+
+        //response status
         echo json_encode(array(
             "status" => "successful",
         ));
     } else {
-        // Return a JSON response indicating failure
         echo json_encode(array(
             "status" => "failed",
             "message" => "Incorrect email or password."
         ));
     }
 } catch (PDOException $e) {
-    // Catch exceptions and return an error message
     echo json_encode([
         "status" => "failed",
         "message" => "An error occurred: " . $e->getMessage()
